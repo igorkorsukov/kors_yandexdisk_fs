@@ -24,6 +24,14 @@ void main() async {
     var data = await ydfs.readFile('app:/example/file1.json');
     var str = utf8.decode(data);
     print("read data: $str");
+
+    print("override file...");
+    await ydfs.writeFile('app:/example/file1.json', '{"a": "c"}', overwrite: true);
+
+    print("read file again...");
+    var data2 = await ydfs.readFile('app:/example/file1.json');
+    var str2 = utf8.decode(data2);
+    print("read data: $str2");
   } catch (e) {
     print("catch: $e");
   }

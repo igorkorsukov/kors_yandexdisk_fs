@@ -48,8 +48,8 @@ class YandexDiskFS {
 
   /// Upload the file.
   /// See: https://yandex.ru/dev/disk/api/reference/upload.html
-  Future<void> writeFile(final String path, final Object data) async {
-    final Uri uri = Uri.https(_baseUrl.host, '$_resources/upload', {'path': path});
+  Future<void> writeFile(final String path, final Object data, {bool overwrite = false}) async {
+    final Uri uri = Uri.https(_baseUrl.host, '$_resources/upload', {'path': path, 'overwrite': overwrite.toString()});
     var response = await http.get(uri, headers: _authHeader);
     if (response.statusCode != 200) {
       throw Exception(response.reasonPhrase);
