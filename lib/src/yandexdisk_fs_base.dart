@@ -70,10 +70,13 @@ class YandexDiskFS {
 
   /// Download the file.
   /// See: https://yandex.ru/dev/disk/api/reference/content.html
-  Future<List<int> /*bytes*/ > readFile(final String path) async {
+  Future<List<int> /*bytes*/ > readFile(final String path, {bool maybeNotExists = false}) async {
     final Uri uri = Uri.https(_baseUrl.host, '$_resources/download', {'path': path});
     var response = await http.get(uri, headers: _authHeader);
     if (response.statusCode != 200) {
+      if (response.statusCode == 404 && maybeNotExists) {
+        return [];
+      }
       throw Exception(response.reasonPhrase);
     }
 
